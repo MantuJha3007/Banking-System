@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
     email:{
         type: String,
         required: [true,"Email is required for creating a user"],
@@ -35,3 +35,7 @@ userSchema.pre("save", async function(next){
 
     return next()
 })
+
+userSchema.methods.comparePassword = async function(password){
+    return bcrypt.compare(password, this.password)
+}
